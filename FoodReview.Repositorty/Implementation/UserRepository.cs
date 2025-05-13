@@ -1,93 +1,64 @@
 ﻿using FoodReview.Model;
-using FoodReview.Repositorty.Interface;
 using System;
 using Microsoft.Extensions.Configuration;
 using Dapper;
 using System.Data.SqlClient;
+using System.Data;
+using FoodReview.Repository.Interface;
 
-namespace FoodReview.Repositorty.Implementation
+namespace FoodReview.Repository.Implementation
 {
     public class UserRepository : IUserRepository
     {
         private readonly string _connectionString;
 
-        public UserRepository(IConfiguration configuration)
+        public async Task<User?> GetByIdAsync(int id)
         {
-            _connectionString = configuration.GetConnectionString("DefaultConnection");
-        }
-
-        public async Task<User> GetByIdAsync(int id)
-        {
-            using (var connection = new SqlConnection(_connectionString))
+            using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                await connection.OpenAsync();
-                return await connection.QueryFirstOrDefaultAsync<User>("SELECT * FROM Users WHERE Id = @Id", new { Id = id });
+                return await db.QueryFirstOrDefaultAsync<User>("SELECT * FROM Users WHERE Id = @Id", new { Id = id });
             }
         }
 
-        public async Task<User> GetByEmailAsync(string email)
+        public async Task<User?> GetByEmailAsync(string email)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                await connection.OpenAsync();
-                return await connection.QueryFirstOrDefaultAsync<User>("SELECT * FROM Users WHERE Email = @Email", new { Email = email });
+                return await db.QueryFirstOrDefaultAsync<User>("SELECT * FROM Users WHERE Email = @Email", new { Email = email });
             }
         }
 
-        public async Task<User> AddAsync(User user)
+        public async Task<IEnumerable<User>> GetAllAsync()
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                await connection.OpenAsync();
-                var sql = @"
-                    INSERT INTO Users (FirstName, LastName, Email, PasswordHash, PasswordSalt, Role, Verified, VerificationToken, CreatedAt)
-                    VALUES (@FirstName, @LastName, @Email, @PasswordHash, @PasswordSalt, @Role, @Verified, @VerificationToken, @CreatedAt);
-                    SELECT CAST(SCOPE_IDENTITY() as int)";
-                var id = await connection.QuerySingleAsync<int>(sql, user);
-                user.Id = id; // Set the ID after insertion
-                return user;
+                return await db.QueryAsync<User>("SELECT * FROM Users");
             }
         }
 
-        public async Task<User> UpdateAsync(User user)
+        public async Task AddAsync(User user)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                await connection.OpenAsync();
-                var sql = @"
-                    UPDATE Users
-                    SET FirstName = @FirstName,
-                        LastName = @LastName,
-                        Email = @Email,
-                        PasswordHash = @PasswordHash,
-                        PasswordSalt = @PasswordSalt,
-                        Role = @Role,
-Verified = @Verified,
-                        VerificationToken = @VerificationToken,
-                        PasswordResetToken = @PasswordResetToken,
-                        ResetTokenExpiresAt = @ResetTokenExpiresAt,
-                        UpdatedAt = @UpdatedAt
-                    WHERE Id = @Id";
-                await connection.ExecuteAsync(sql, user);
-                return user;
+                var sql = "INSERT INTO Users (Email, PasswordHash, Role) VALUES (@Email, @PasswordHash, @Role); SELECT CAST(SCOPE_IDENTITY() as int)";
+                user.Id = await db.ExecuteScalarAsync<int>(sql, user);
             }
         }
 
-        public async Task<User> GetUserByVerificationTokenAsync(string token)
+        public async Task UpdateAsync(User user)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                await connection.OpenAsync();
-                return await connection.QueryFirstOrDefaultAsync<User>("SELECT * FROM Users WHERE VerificationToken = @Token", new { Token = token });
+                var sql = "UPDATE Users SET Email = @Email, PasswordHash = @PasswordHash, Role = @Role WHERE Id = @Id";
+                await db.ExecuteAsync(sql, user);
             }
         }
 
-        public async Task<User> GetUserByResetTokenAsync(string token)
+        public async Task DeleteAsync(int id)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                await connection.OpenAsync();
-                return await connection.QueryFirstOrDefaultAsync<User>("SELECT * FROM Users WHERE PasswordResetToken = @Token", new { Token = token });
+                await db.ExecuteAsync("DELETE FROM Users WHERE Id = @Id", new { Id = id });
             }
         }
     }

@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodReview.Api", "FoodReview.Api\FoodReview.Api.csproj", "{5D864E1B-890A-4085-87C2-949D3B4443CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodReview.Api", "FoodReview.Api\FoodReview.Api.csproj", "{5D864E1B-890A-4085-87C2-949D3B4443CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodReview.Repositorty", "FoodReview.Repositorty\FoodReview.Repositorty.csproj", "{F2F1333E-881F-4801-80EE-EE3875060366}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodReview.Repository", "FoodReview.Repositorty\FoodReview.Repository.csproj", "{F2F1333E-881F-4801-80EE-EE3875060366}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodReview.Service", "FoodReview.Service\FoodReview.Service.csproj", "{1D7ADE55-D1F3-46C6-872D-99ECEAA21E9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodReview.Service", "FoodReview.Service\FoodReview.Service.csproj", "{1D7ADE55-D1F3-46C6-872D-99ECEAA21E9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodReview.Model", "FoodReview.Model\FoodReview.Model.csproj", "{F6B5630A-BBCC-4610-8E5A-6CFF8E051747}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodReview.Model", "FoodReview.Model\FoodReview.Model.csproj", "{F6B5630A-BBCC-4610-8E5A-6CFF8E051747}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

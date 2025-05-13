@@ -5,15 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FoodReview.Repositorty.Interface
+namespace FoodReview.Repository.Interface
 {
     public interface IUserRepository
     {
-        Task<User> GetByIdAsync(int id);
-        Task<User> GetByEmailAsync(string email);
-        Task<User> AddAsync(User user);
-        Task<User> UpdateAsync(User user);
-        Task<User> GetUserByVerificationTokenAsync(string token);
-        Task<User> GetUserByResetTokenAsync(string token);
+        Task<User?> GetByIdAsync(int id);
+        Task<User?> GetByEmailAsync(string email);
+        Task<IEnumerable<User>> GetAllAsync();
+        Task AddAsync(User user);
+        Task UpdateAsync(User user);
+        Task DeleteAsync(int id);
     }
 }
