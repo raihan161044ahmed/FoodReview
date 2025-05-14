@@ -12,6 +12,10 @@ namespace FoodReview.Repository.Implementation
     {
         private readonly string _connectionString;
 
+        public UserRepository(IConfiguration configuration)
+        {
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
         public async Task<User?> GetByIdAsync(int id)
         {
             using (IDbConnection db = new SqlConnection(_connectionString))

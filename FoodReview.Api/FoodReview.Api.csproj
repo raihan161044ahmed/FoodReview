@@ -14,11 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\FoodReview.Repositorty\FoodReview.Repository.csproj" />
+    <ProjectReference Include="..\FoodReview.Service\FoodReview.Service.csproj" />
   </ItemGroup>
 
 </Project>
