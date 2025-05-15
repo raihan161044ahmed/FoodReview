@@ -1,7 +1,16 @@
 1. add DB connection in appsetting.json
 2. Google oAuth crediantials
 3. Run below script for DB
-
+   --------------------------------------------------------------------------------------------------------------------------------------
+   appsetting.json
+ "ConnectionStrings": {
+   "DefaultConnection": "Server=(localdb)\\MSSQLLocalDB;Database=FoodReview;Trusted_Connection=True;MultipleActiveResultSets=true"
+ },
+ "GoogleAuthSettings": {
+   "ClientId": "YOUR_GOOGLE_CLIENT_ID",
+   "ClientSecret": "YOUR_GOOGLE_CLIENT_SECRET",
+   "RedirectUri": "YOUR_GOOGLE_REDIRECT_URI"
+ }
 
    ==========================================================================================
    USE [master]
