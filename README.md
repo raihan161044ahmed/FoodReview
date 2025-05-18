@@ -127,5 +127,16 @@ GO
 
 ALTER DATABASE [FoodReview] SET  READ_WRITE 
 GO
-
+CREATE TABLE SocialUsers (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    Provider NVARCHAR(50) NOT NULL,
+    ProviderUserId NVARCHAR(100) NOT NULL,
+    Email NVARCHAR(256) NOT NULL,
+    Name NVARCHAR(100) NULL,
+    ProfilePictureUrl NVARCHAR(500) NULL,
+    CreatedAt DATETIME2 NOT NULL DEFAULT GETUTCDATE(),
+    UserId INT NOT NULL,
+    CONSTRAINT FK_SocialUsers_Users FOREIGN KEY (UserId) REFERENCES Users(Id),
+    CONSTRAINT UQ_SocialUsers_Provider_UserId UNIQUE (Provider, ProviderUserId)
+);
 
