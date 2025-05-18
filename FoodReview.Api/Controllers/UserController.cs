@@ -101,16 +101,10 @@ namespace FoodReview.Api.Controllers
 
         [HttpGet("profile")]
         [Authorize] 
-        public async Task<IActionResult> GetUserProfile()
+        public async Task<IActionResult> GetUserProfile(int userId)
         {
             try
             {
-                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-                if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
-                {
-                    return Unauthorized(new { message = "Invalid user ID." });
-                }
-
                 var user = await _userService.GetUserByIdAsync(userId); 
                 if (user == null)
                 {
@@ -121,8 +115,7 @@ namespace FoodReview.Api.Controllers
                 {
                     Id = user.Id,
                     Email = user.Email,
-                    Role = user.Role,
-                    // Add other safe properties
+                    Role = user.Role
                 };
 
                 return Ok(profile);
